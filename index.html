@@ -713,5 +713,52 @@
 
 
 <div data-v-5122f198="" class="wps_ai_link" style="display: none;"><svg data-v-5122f198="" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path data-v-5122f198="" d="M0 2C0 0.895431 0.895431 0 2 0H14C15.1046 0 16 0.895431 16 2V14C16 15.1046 15.1046 16 14 16H2C0.895431 16 0 15.1046 0 14V2Z" fill="#1D70F5"></path><path data-v-5122f198="" d="M0 14H16C16 15.1046 15.1046 16 14 16H2C0.895431 16 0 15.1046 0 14Z" fill="#0059E8"></path><path data-v-5122f198="" d="M8 14H16C16 15.1046 15.1046 16 14 16H8V14Z" fill="#3C87FF"></path><path data-v-5122f198="" d="M3.34164 3H4.87711L5.88781 7.62035L7.21221 3.5H8.7878L10.1122 7.62035L11.1229 3H12.6584L10.9084 11H9.62293L8 5.95091L6.37708 11H5.09164L3.34164 3Z" fill="white"></path></svg><!----><!----><span data-v-5122f198="" class="wps_ai_link_title">在线打开</span></div><script defer="" src="./ChatGPT Plus · 一键充值 ChatGPT_files/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;7e771fc195a740f8930406cfb88b9fef&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+<!-- 视频弹窗模块 -->
+<div id="videoModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50">
+  <!-- 弹窗内容 -->
+  <div class="bg-white rounded-2xl shadow-2xl overflow-hidden relative max-w-4xl w-full mx-4">
+    <!-- 关闭按钮 -->
+    <button onclick="closeVideoModal()" class="absolute top-4 right-4 bg-black/50 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl hover:bg-black/70 transition">
+      ✕
+    </button>
+
+    <!-- 视频区域 -->
+    <div class="aspect-w-16 aspect-h-9">
+      <iframe
+        id="tutorialVideo"
+        class="w-full h-[70vh]"
+        src="https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE"
+        title="兑换视频教程"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</div>
+
+<!-- 控制脚本 -->
+<script>
+  function openVideoModal() {
+    const modal = document.getElementById("videoModal");
+    const video = document.getElementById("tutorialVideo");
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    // 自动播放
+    const src = video.src;
+    if (!src.includes("autoplay=1")) {
+      video.src = src + (src.includes("?") ? "&" : "?") + "autoplay=1";
+    }
+  }
+
+  function closeVideoModal() {
+    const modal = document.getElementById("videoModal");
+    const video = document.getElementById("tutorialVideo");
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    // 停止播放
+    video.src = video.src.replace("&autoplay=1", "").replace("?autoplay=1", "");
+  }
+</script>
 
 </body></html>
