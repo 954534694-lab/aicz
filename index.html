@@ -566,62 +566,66 @@
         </div>
     </div>
 
-  <script>
-    // 视频弹窗功能
-    function openVideoModal() {
-        const modal = document.getElementById('videoModal');
-        const video = document.getElementById('videoPlayer');
-        if (!modal || !video) return;
+ <script>
+  // 视频弹窗功能
+  function openVideoModal() {
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('videoPlayer');
+    if (!modal || !video) return;
 
-        // 显示弹窗
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
+    // 显示弹窗
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
 
-        // 确保从头播放
-        video.currentTime = 0;
+    // 从头播放
+    video.currentTime = 0;
 
-        // 自动播放（有的浏览器需要用户交互后才允许播放）
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(err => {
-                console.warn("Autoplay failed:", err);
-            });
-        }
+    // 自动播放（有的浏览器需要用户交互后才允许播放）
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch((err) => console.warn("Autoplay failed:", err));
     }
+  }
 
-    function closeVideoModal() {
-        const modal = document.getElementById('videoModal');
-        const video = document.getElementById('videoPlayer');
-        if (!modal || !video) return;
+  function closeVideoModal() {
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('videoPlayer');
+    if (!modal || !video) return;
 
-        // 暂停并重置视频
-        video.pause();
-        video.currentTime = 0;
+    // ⚠️ 停止播放、重置、移除 src（最关键）
+    video.pause();
+    video.currentTime = 0;
+    const src = video.querySelector('source').getAttribute('src');
+    video.removeAttribute('src');
+    video.load(); // 强制刷新视频流（防止声音残留）
 
-        // 隐藏弹窗
-        modal.classList.add('hidden');
-        document.body.style.overflow = '';
+    // 隐藏弹窗
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+
+    // 100ms 后恢复 src（下次打开时可正常播放）
+    setTimeout(() => {
+      video.innerHTML = `<source src="${src}" type="video/mp4">`;
+      video.load();
+    }, 100);
+  }
+
+  // 点击背景关闭弹窗
+  document.getElementById('videoModal').addEventListener('click', function(e) {
+    if (e.target === this) closeVideoModal();
+  });
+
+  // ESC 键关闭弹窗
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeVideoModal();
+
+      const contactModal = document.getElementById('contactModal');
+      if (contactModal && !contactModal.classList.contains('hidden')) {
+        toggleContactModal();
+      }
     }
-
-    // 点击背景关闭弹窗
-    document.getElementById('videoModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeVideoModal();
-        }
-    });
-
-    // ESC 键关闭弹窗
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            closeVideoModal();
-
-            // 如果客服弹窗打开，也一并关闭
-            const contactModal = document.getElementById('contactModal');
-            if (contactModal && !contactModal.classList.contains('hidden')) {
-                toggleContactModal();
-            }
-        }
-    });
+  });
 </script>
         // 客服联系方式弹窗功能
         function toggleContactModal() {
